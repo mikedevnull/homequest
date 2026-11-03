@@ -1,0 +1,36 @@
+<!doctype html>
+<html data-theme="autumn">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restic Monitor</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+    {%block header%}
+    <header>
+        <!-- Navbar -->
+        <div class="navbar bg-base-100 shadow-sm w-full">
+            <div class="flex flex-1 flex-row items-center">
+                <img class="w-12 h-12" src="static/icon.png" />
+                <a class="btn btn-ghost text-xl">HomeQuest</a>
+            </div>
+        </div>
+    </header>
+    {%endblock%}
+    <main class="mx-auto container py-4">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+
+<script>
+
+</script>
+
+</html>
