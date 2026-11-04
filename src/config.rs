@@ -2,10 +2,11 @@ use std::str::FromStr;
 
 use crate::db::DatabaseOptions;
 
-#[derive(serde::Deserialize, Clone)]
+#[derive(serde::Deserialize, Debug, Clone)]
 pub struct Config {
     pub port: u16,
     database_url: String,
+    pub secretkey: Option<String>,
 }
 
 impl From<Config> for DatabaseOptions {

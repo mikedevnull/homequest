@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card mx-auto bg-base-100 w-full max-w-sm shrink-0 bg-base-100 rounded-box border-base-300 border">
+    <form method="post" class="card-body">
+        <fieldset class="fieldset">
+            <label class="fieldset-label">Username</label>
+            <input type="text" name="username" class="input validator" placeholder="Username" required />
+            <p class="validator-hint hidden">Required</p>
+        </fieldset>
+        <fieldset class="fieldset">
+            <label class="fieldset-label">Displayname</label>
+            <input type="text" name="displayname" class="input validator" placeholder="Displayname" required />
+            <p class="validator-hint hidden">Required</p>
+        </fieldset>
+        <fieldset class="fieldset">
+            <label class="fieldset-label">Password</label>
+            <input type="password" name="password" minlength="6" class="input validator" placeholder="Password" required />
+            <p class="validator-hint hidden">Required and at least 6 characters</p>
+        </fieldset>
+        <label class="fieldset">
+            <span class="label">Confirm password</span>
+            <input type="password" id="password_confirm" class="input validator w-full" placeholder="Password" required
+                oninput="check()" />
+            <span class="validator-hint hidden">Passwords do not match</span>
+        </label>
+        <button type="submit" class="btn btn-primary mt-4">Create</button>
+
+    </form>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    function check() {
+        var input = document.getElementById('password_confirm');
+        if (input.value != document.getElementById('password').value) {
+            input.setCustomValidity('Password must be Matching.');
+        } else {
+            // input is valid -- reset the error message
+            input.setCustomValidity('');
+        }
+    }
+</script>
+{% endblock %}

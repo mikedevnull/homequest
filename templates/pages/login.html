@@ -2,19 +2,19 @@
 
 {% block content %}
 <div class="card mx-auto bg-base-100 w-full max-w-sm shrink-0 bg-base-100 rounded-box border-base-300 border">
-    <form class="card-body">
+    <form method="post" class="card-body">
         <fieldset class="fieldset">
             <label class="fieldset-label">Username</label>
-            <input type="username" class="input" placeholder="Username" required />
+            <input type="test" name="username" class="input" placeholder="Username" required />
             <p class="validator-hint hidden">Required</p>
         </fieldset>
         <fieldset class="fieldset">
             <label class="fieldset-label">Password</label>
-            <input type="password" class="input" placeholder="Password" required />
+            <input type="password" name ="password" class="input" placeholder="Password" required />
             <p class="validator-hint hidden">Required</p>
         </fieldset>
         <button type="submit" class="btn btn-primary mt-4">Login</button>
-        <a class="text-primary font-bold pt-2 text-center" href="#">Create account</a>
+        <a class="text-primary font-bold pt-2 text-center" href="/create_account">Create account</a>
     </form>
 </div>
 {% endblock %}
