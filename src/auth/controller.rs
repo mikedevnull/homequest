@@ -92,7 +92,7 @@ async fn create_account<A: AuthService>(
         .await;
     if success {
         if actix_identity::Identity::login(&request.extensions(), form_data.username).is_ok() {
-            return HttpResponse::Created()
+            return HttpResponse::SeeOther()
                 .append_header((actix_web::http::header::LOCATION, "/"))
                 .finish();
         }
@@ -164,6 +164,6 @@ mod test {
             })
             .to_request();
         let resp = test::call_service(&app, req).await;
-        assert!(resp.status().is_success());
+        assert!(resp.status().is_redirection());
     }
 }
