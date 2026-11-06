@@ -1,5 +1,6 @@
 pub mod app;
 mod auth;
-mod db;
+pub mod db;
 mod routes;
 mod config;
+pub use config::load_configuration;

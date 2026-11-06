@@ -1,6 +1,6 @@
 use std::str::FromStr;
 
-use crate::db::DatabaseOptions;
+use sqlx::sqlite::SqliteConnectOptions;
 
 #[derive(serde::Deserialize, Debug, Clone)]
 pub struct Config {
@@ -9,12 +9,9 @@ pub struct Config {
     pub secretkey: Option<String>,
 }
 
-impl From<Config> for DatabaseOptions {
+impl From<Config> for SqliteConnectOptions {
     fn from(value: Config) -> Self {
-        DatabaseOptions {
-            sqlite: sqlx::sqlite::SqliteConnectOptions::from_str(value.database_url.as_str())
-                .unwrap(),
-        }
+        sqlx::sqlite::SqliteConnectOptions::from_str(value.database_url.as_str()).unwrap()
     }
 }
 

@@ -1,12 +1,13 @@
 use actix_identity::Identity;
 use serde::{Serialize};
+use sqlx::SqlitePool;
 
 use crate::{
     auth::{
         repositories::Group,
         repositories::{SqliteUserRepository, UserRepository},
     },
-    db::Database,
+    
 };
 
 pub struct Credentials<'a> {
@@ -39,8 +40,8 @@ pub struct AuthServiceImpl<U: UserRepository> {
 }
 
 impl AuthServiceImpl<SqliteUserRepository> {
-    pub fn new(db: Database) -> Self {
-        let user_repository = SqliteUserRepository::new(db.pool);
+    pub fn new(db: SqlitePool) -> Self {
+        let user_repository = SqliteUserRepository::new(db);
         Self { user_repository }
     }
 }

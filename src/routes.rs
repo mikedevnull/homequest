@@ -17,7 +17,7 @@ async fn index(tera: web::Data<Tera>, auth_service: web::Data<DefaultAuthService
     }
 }
 
-pub fn configure(cfg: &mut web::ServiceConfig, db: Database) {
+pub fn configure(cfg: &mut web::ServiceConfig, db: SqlitePool) {
     cfg.default_service(web::to(|| HttpResponse::NotFound()));
     cfg.service(index);
     cfg.configure(|cfg| auth::configure(cfg, db));
