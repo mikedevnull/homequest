@@ -81,12 +81,13 @@ async fn create_account<A: AuthService>(
     auth: web::Data<A>,
 ) -> impl Responder {
     let form_data: dao::RegisterForm = form.into_inner();
+    let group = if auth.has_admin_account().await == true { Group::User } else {Group::Admin};
     let success = auth
         .register(
             form_data.username.as_str(),
             form_data.password.as_str(),
             form_data.displayname.as_str(),
-            Group::Admin,
+            group,
             form_data.displayname.as_str(),
         )
         .await;
@@ -133,6 +134,7 @@ mod test {
             displayname: &'a str,
         }
         let mut mock_auth_service = MockAuthService::default();
+        mock_auth_service.expect_has_admin_account().return_const(false);
         mock_auth_service
             .expect_register()
             .with(
@@ -143,6 +145,50 @@ mod test {
                 eq("Me"),
             )
             .return_const(true);
+
+        let app = test::init_service(
+            App::new()
+                .wrap(Logger::default())
+                .wrap(IdentityMiddleware::default())
+                .wrap(SessionMiddleware::new(
+                    CookieSessionStore::default(),
+                    Key::generate(),
+                ))
+                .configure(|cfg| configure(cfg, web::Data::new(mock_auth_service))),
+        )
+        .await;
+        let req = test::TestRequest::post()
+            .uri("/create_account")
+            .set_form(&CreateAccountForm {
+                password: "supersecret",
+                username: "me",
+                displayname: "Me",
+            })
+            .to_request();
+        let resp = test::call_service(&app, req).await;
+        assert!(resp.status().is_redirection());
+    }
+
+    #[actix_web::test]
+    async fn setup_submit_form_creates_user_if_admin_exists() {
+        #[derive(Serialize)]
+        pub struct CreateAccountForm<'a> {
+            username: &'a str,
+            password: &'a str,
+            displayname: &'a str,
+        }
+        let mut mock_auth_service = MockAuthService::default();
+        mock_auth_service
+            .expect_register()
+            .with(
+                eq("me"),
+                eq("supersecret"),
+                eq("Me"),
+                eq(Group::User),
+                eq("Me"),
+            )
+            .return_const(true);
+        mock_auth_service.expect_has_admin_account().return_const(true);
 
         let app = test::init_service(
             App::new()
