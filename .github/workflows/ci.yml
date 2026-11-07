@@ -29,6 +29,6 @@ jobs:
     - name: Run library tests
       run: cargo test --verbose --lib
     - name: Install Playwright Browsers
-      run: npx playwright install chromium --with-deps
+      run: npx playwright@1.64.0 install chromium
     - name: Run e2e tests
       run: cargo test --test "*"
