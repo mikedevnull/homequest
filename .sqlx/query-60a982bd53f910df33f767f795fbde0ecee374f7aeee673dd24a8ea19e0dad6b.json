@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO users (username, password, displayname, \"group\", avatar_seed) VALUES($1,$2,$3,$4,$5)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 5
+    },
+    "nullable": []
+  },
+  "hash": "60a982bd53f910df33f767f795fbde0ecee374f7aeee673dd24a8ea19e0dad6b"
+}
