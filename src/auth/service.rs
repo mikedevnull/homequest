@@ -33,6 +33,7 @@ pub trait AuthService {
 
     async fn verify_login<'a>(&self, credentials: &Credentials<'a>) -> bool;
     async fn inject_user_info(&self, ctx: &mut tera::Context, username: Option<Identity>);
+    async fn has_admin_account(&self) ->bool;
 }
 
 pub struct AuthServiceImpl<U: UserRepository> {
@@ -99,6 +100,10 @@ where
         if let Some(userinfo) = userinfo {
             ctx.insert("user", &userinfo);
         }
+    }
+
+    async fn has_admin_account(&self) -> bool {
+        false
     }
 }
 

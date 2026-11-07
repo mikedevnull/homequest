@@ -30,6 +30,7 @@ pub trait UserRepository {
     ) -> Option<i64>;
 
     async fn get_user_by_username(&self, username: &str) -> Option<User>;
+    async fn get_user_count_by_group(&self, group: Group) -> i64;
 }
 
 pub struct SqliteUserRepository {
@@ -68,6 +69,15 @@ impl UserRepository for SqliteUserRepository {
 
     async fn get_user_by_username(&self, username: &str) -> Option<User> {
         sqlx::query_as!(User, "SELECT id, username, password, displayname, \"group\" as \"group: Group\", avatar_seed FROM users WHERE username == $1", username).fetch_one(&self.db).await.ok()
+    }
+
+    async fn get_user_count_by_group(&self, group: Group) -> i64 {
+        let cnt: i64 = sqlx::query_scalar("SELECT COUNT(*) FROM users WHERE \"group\" = $1")
+            .bind(&group)
+            .fetch_one(&self.db)
+            .await
+            .unwrap_or(0);
+        cnt
     }
 }
 
@@ -108,5 +118,24 @@ mod test {
         assert_eq!(pre_existing_user.displayname, "FooBar");
         assert_eq!(pre_existing_user.group, Group::Admin);
         assert_eq!(pre_existing_user.avatar_seed, "123456");
+    }
+
+    #[sqlx::test]
+    async fn reports_user_count_by_group(pool: sqlx::Pool<sqlx::Sqlite>) {
+        let repo = SqliteUserRepository::new(pool.clone());
+        let _ = repo
+            .create("foo", "bar", "FooBar", Group::Admin, "123456")
+            .await
+            .unwrap();
+        let _ = repo
+            .create("bar", "bar", "FooBar", Group::User, "123456")
+            .await
+            .unwrap();
+        let _ = repo
+            .create("baz", "bar", "FooBar", Group::User, "123456")
+            .await
+            .unwrap();
+       assert_eq!(repo.get_user_count_by_group(Group::Admin).await, 1);
+       assert_eq!(repo.get_user_count_by_group(Group::User).await, 2);
     }
 }
