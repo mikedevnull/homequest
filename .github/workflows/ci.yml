@@ -3,8 +3,36 @@ name: Rust
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - ".github/workflows/ci.yml"
+      - ".cargo/**"
+      - ".sqlx/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "build.rs"
+      - "rust-toolchain"
+      - "rust-toolchain.toml"
+      - "src/**/*.rs"
+      - "tests/**/*.rs"
+      - "migrations/**"
+      - "templates/**"
+      - "default_config.toml"
   pull_request:
     branches: [ "master" ]
+    paths:
+      - ".github/workflows/ci.yml"
+      - ".cargo/**"
+      - ".sqlx/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "build.rs"
+      - "rust-toolchain"
+      - "rust-toolchain.toml"
+      - "src/**/*.rs"
+      - "tests/**/*.rs"
+      - "migrations/**"
+      - "templates/**"
+      - "default_config.toml"
 
 env:
   CARGO_TERM_COLOR: always
