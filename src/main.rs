@@ -9,7 +9,7 @@ async fn main() -> Result<(), std::io::Error> {
     let config = load_configuration().unwrap();
     let pool = sqlx::SqlitePool::connect_with(config.clone().into()).await.unwrap();
     db::migrate(pool.clone()).await.expect("Database migration failed");
-    let listener = TcpListener::bind("127.0.0.1:8080")
+    let listener = TcpListener::bind((config.host.as_str(), config.port))
         .expect("Failed to bind tcp listener");
     let secret_key = config.secretkey.map(|v| Key::derive_from(v.as_bytes()));
     app::run(listener, pool, secret_key)?.await
