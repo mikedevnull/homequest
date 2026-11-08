@@ -4,6 +4,7 @@ use sqlx::sqlite::SqliteConnectOptions;
 
 #[derive(serde::Deserialize, Debug, Clone)]
 pub struct Config {
+    pub host: String,
     pub port: u16,
     database_url: String,
     pub secretkey: Option<String>,
