@@ -89,7 +89,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "810f47733f956175bd5b2ae17ae5237fa92bd1b6a4a65f646a7240dbe9ff2728"
 dependencies = [
  "actix-service",
- "actix-session",
+ "actix-session 0.11.0",
  "actix-utils",
  "actix-web",
  "derive_more",
@@ -172,6 +172,22 @@ dependencies = [
  "anyhow",
  "derive_more",
  "rand 0.9.5",
+ "serde",
+ "serde_json",
+ "tracing",
+]
+
+[[package]]
+name = "actix-session"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a90513d33f07fa3c2d8394d3ad9cc3aade99584dde765b794547f0758be91835"
+dependencies = [
+ "actix-service",
+ "actix-web",
+ "anyhow",
+ "derive_more",
+ "rand 0.10.3",
  "serde",
  "serde_json",
  "tracing",
@@ -1152,7 +1168,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "39cab71617ae0d63f51a36d69f866391735b51691dbda63cf6f96d042b63efeb"
 dependencies = [
  "libc",
- "windows-sys 0.52.0",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -1565,7 +1581,7 @@ version = "0.1.0"
 dependencies = [
  "actix-files",
  "actix-identity",
- "actix-session",
+ "actix-session 0.12.0",
  "actix-web",
  "axum-test",
  "config",
@@ -2826,7 +2842,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys",
- "windows-sys 0.52.0",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -3374,7 +3390,7 @@ dependencies = [
  "getrandom 0.4.3",
  "once_cell",
  "rustix",
- "windows-sys 0.52.0",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -4109,7 +4125,7 @@ version = "0.1.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c2a7b1c03c876122aa43f3020e6c3c3ee5c05081c9a00739faf7503aeba10d22"
 dependencies = [
- "windows-sys 0.52.0",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
